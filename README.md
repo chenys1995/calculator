@@ -1,2 +1,2 @@
 # calculator
-softdev hw#!=1
+softdev hw#1
