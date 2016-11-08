@@ -125,8 +125,11 @@ function eval(){
 		 }
 		 console.log(stack)
 	}
-	if(get_top(stack) != null)
+	if(get_top(stack) != null){
+		expr = [];
+		expr.push(get_top(stack));
 		display(get_top(stack));
+	}
 	reload();
 }
 function sign_change(){
@@ -179,10 +182,15 @@ function ce(){
 	result.innerHTML = 0; 
 }
 function backspace(){
-	var top = expr.pop(),leng = top.length;
+	var t = expr.pop()
+	var top = t.toString(),leng = top.length;
 	top = top.substr(0,leng-1);
-	expr.push(top);
+	if(top !="")expr.push(top);
 	reload();
+	if(isEmpty(expr)){
+		var result = document.getElementById("result");
+		result.innerHTML = 0; 
+	}
 }
 function c(){
 	expr.pop();
