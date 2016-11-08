@@ -42,7 +42,7 @@ function infix_expr(op){
 	var l = expr.length;
 	for(var i=0; i<l; i++){
 		var c = expr[i];
-		if(!isNaN(parseInt(c))){
+		if(!isNaN(parseInt(c))||!isNaN(parseInt(c,16))){
 			pfixString.push(c);
 		}else if(c === "+" || c==="-" || c === "*" || c==="/" || c==="%"){
 			while(!isEmpty(infixStack) && (precedence(c) <= precedence(get_top(infixStack)))){
@@ -72,40 +72,68 @@ function eval(){
 		 switch(postfix[i]){
 			 case "+":
 				var op2 = stack.pop(),op1 = stack.pop();
-				stack.push(parseInt(op1,10)+parseInt(op2,10));
+				var num2 =parseInt(op2),num1 =parseInt(op1);
+				if(isNaN(num1) || isNaN(num2)){
+					num1=parseInt(op1,16);
+					num2=parseInt(op2,16);
+				}
+				stack.push(num1 + num2);
 				break;
 			 case "-":
 				var op2 = stack.pop(),op1 = stack.pop();
-				stack.push(parseInt(op1,10)-parseInt(op2,10));
+				var num2 =parseInt(op2),num1 =parseInt(op1);
+				if(isNaN(num1) || isNaN(num2)){
+					num1=parseInt(op1,16);
+					num2=parseInt(op2,16);
+				}
+				stack.push(num1-num2);
 				break;
 			 case "*":
 				var op2 = stack.pop(),op1 = stack.pop();
-				stack.push(parseInt(op1,10)*parseInt(op2,10));
+				var num2 =parseInt(op2),num1 =parseInt(op1);
+				if(isNaN(num1) || isNaN(num2)){
+					num1=parseInt(op1,16);
+					num2=parseInt(op2,16);
+				}
+				stack.push(num1*num2);
 				break;
 			 case "/":
 				var op2 = stack.pop(),op1 = stack.pop();
-				if(parseInt(op2,10) != 0)
-					stack.push(parseInt(op1,10)/parseInt(op2,10));
+				var num2 =parseInt(op2),num1 =parseInt(op1);
+				if(isNaN(num1) || isNaN(num2)){
+					num1=parseInt(op1,16);
+					num2=parseInt(op2,16);
+				}
+				if(parseInt(op2) != 0)
+					stack.push(num1/num2);
 				else stack.push(NaN);
 				break;
 			 case "%":
 				var op2 = stack.pop(),op1 = stack.pop();
-				if(parseInt(op2,10) != 0)
-					stack.push(parseInt(op1,10)%parseInt(op2,10));
+				var num2 =parseInt(op2),num1 =parseInt(op1);
+				if(isNaN(num1) || isNaN(num2)){
+					num1=parseInt(op1,16);
+					num2=parseInt(op2,16);
+				}
+				if(num2 != 0)
+					stack.push(num1%num2);
 				else stack.push(NaN);
 				break;
 			 default:
 				stack.push(postfix[i]);
 				break;
 		 }
-		// console.log(stack)
+		 console.log(stack)
 	}
-	display(get_top(stack));
+	if(get_top(stack) != null)
+		display(get_top(stack));
 	reload();
 }
 function sign_change(){
 	var top = expr.pop();
-	top *= -1;
+	if(top !="+" && top !="-" && top !="*" && top !="/" && top !="%"){
+		top *= -1;
+	}
 	expr.push(top);
 	reload();
 }
@@ -114,7 +142,7 @@ function display(ans){
 	var result_dec = document.getElementById("result_dec");
 	var result_oct = document.getElementById("result_oct");
 	var result_bin = document.getElementById("result_bin");
-	if(parseInt(ans,10) < 0){
+	if(parseInt(ans) < 0){
 		var bar =parseInt("FFFFFFFF",16) - (parseInt(ans) * -1) +1;
 		var hex = bar.toString(16),oct =bar.toString(8),bin=bar.toString(2);
 		result_hex.innerHTML = "HEX "+hex;
