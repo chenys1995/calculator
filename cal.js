@@ -116,11 +116,21 @@ function display(ans){
 	var result_dec = document.getElementById("result_dec");
 	var result_oct = document.getElementById("result_oct");
 	var result_bin = document.getElementById("result_bin");
-	var hex = ans.toString(16),oct =ans.toString(8),bin=ans.toString(2);
-	result_hex.innerHTML = "HEX "+hex;
-	result_dec.innerHTML = "DEC " +parseInt(hex,16);
-	result_oct.innerHTML = "OCT " +oct;
-	result_bin.innerHTML = "BIN " +bin;
+	if(parseInt(ans,10) < 0){
+		var bar =parseInt("FFFFFFFF",16) - (parseInt(ans) * -1) +1;
+		var hex = bar.toString(16),oct =bar.toString(8),bin=bar.toString(2);
+		result_hex.innerHTML = "HEX "+hex;
+		result_dec.innerHTML = "DEC " +parseInt(ans,10);
+		result_oct.innerHTML = "OCT " +oct;
+		result_bin.innerHTML = "BIN " +bin;
+	}
+	else {
+		var hex = ans.toString(16),oct =ans.toString(8),bin=ans.toString(2);
+		result_hex.innerHTML = "HEX "+hex;
+		result_dec.innerHTML = "DEC " +parseInt(hex,16);
+		result_oct.innerHTML = "OCT " +oct;
+		result_bin.innerHTML = "BIN " +bin;
+	}
 }
 function reload(){
 	var result = document.getElementById("result");
@@ -135,4 +145,15 @@ function reload(){
 		else  str +=expr[i];
 	}
 	result.innerHTML = str; 
+}
+function ce(){
+	expr =[]
+	display(0);
+	var result = document.getElementById("result");
+	result.innerHTML = 0; 
+}
+function c(){
+	expr.pop();
+	display(0);
+	reload();
 }
