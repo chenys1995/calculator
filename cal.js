@@ -67,8 +67,6 @@ function get_top(stack){
 }
 function eval(){
 	var postfix = InfixtoPostfix();
-	 console.log("postfix :")
-	console.log(postfix)
 	var stack =[];
 	for(var i in postfix){
 		 switch(postfix[i]){
@@ -100,7 +98,7 @@ function eval(){
 				stack.push(postfix[i]);
 				break;
 		 }
-		 console.log(stack)
+		// console.log(stack)
 	}
 	display(get_top(stack));
 	reload();
@@ -152,8 +150,18 @@ function ce(){
 	var result = document.getElementById("result");
 	result.innerHTML = 0; 
 }
+function backspace(){
+	var top = expr.pop(),leng = top.length;
+	top = top.substr(0,leng-1);
+	expr.push(top);
+	reload();
+}
 function c(){
 	expr.pop();
 	display(0);
 	reload();
+	if(isEmpty(expr)){
+		var result = document.getElementById("result");
+		result.innerHTML = 0; 
+	}
 }
