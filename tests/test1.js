@@ -72,3 +72,40 @@ QUnit.test("Trigger_test", function(assert)
 	done();
 	}, 1000);
 });
+QUnit.test("DOM_test", function(assert)
+{
+	init();
+	assert.expect(6);
+	var done = assert.async(6);
+	var input = $('.value');
+	$(`.button[data-content=${'val-1'}]`).trigger("click");
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"1");
+	$(`.button[data-content=${'val-2'}]`).trigger("click");
+	done();
+	},1000);
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"12");
+	$(`.button[data-content=${'val-3'}]`).trigger("click");
+	done();
+	},1000);
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"123");
+	$(`.button[data-content=${'oper-add'}]`).trigger("click");
+	done();
+	},1000);
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"123");
+	$(`.button[data-content=${'val-2'}]`).trigger("click");
+	done();
+	},1000);
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"2");
+	$(`.button[data-content=${'calc'}]`).trigger("click");
+	done();
+	},1000);
+	setTimeout(function() {
+	assert.equal(input[0].innerHTML,"125");
+	done();
+	},1000);
+});
